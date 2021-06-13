@@ -34,3 +34,19 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: Build bacon
+        run: |
+          docker run \
+            -e "BRANCH_NAME=lineage-17.1" \
+            -e "DEVICE_LIST=bacon" \
+            -e "SIGN_BUILDS=true" \
+            -e "SIGNATURE_SPOOFING=restricted" \
+            -e "CUSTOM_PACKAGES=GmsCore GsfProxy FakeStore MozillaNlpBackend NominatimNlpBackend com.google.android.maps.jar FDroid FDroidPrivilegedExtension " \
+            -v "${PWD}/build/lineage:/srv/src" \
+            -v "${PWD}/build/zips:/srv/zips" \
+            -v "${PWD}/build/logs:/srv/logs" \
+            -v "${PWD}/build/cache:/srv/ccache" \
+            -v "${PWD}/build/keys:/srv/keys" \
+            -v "${PWD}/build/manifests:/srv/local_manifests" \
+            lineageos4microg/docker-lineage-cicd
